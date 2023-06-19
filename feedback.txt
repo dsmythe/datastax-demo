@@ -1,0 +1,77 @@
+Task: Build and Connect to my own Astra DB Cluster, provide feedback.
+
+Used the following documentation:
+  - https://docs.datastax.com/en/astra-serverless/docs/
+  - https://astra.datastax.com/org/40439aa3-b462-433a-90f3-c97030795d82/guide/introToDataWithAstraDB
+  - https://astra.datastax.com/org/40439aa3-b462-433a-90f3-c97030795d82/guide/loadDataIntoAstraDB
+  - https://docs.datastax.com/en/astra-serverless/docs/getting-started/gs-load-data.html
+  - https://docs.datastax.com/en/developer/python-dse-driver/2.11/api/dse/cluster/#dse.cluster.Cluster
+  - https://docs.datastax.com/en/astra-serverless/docs/connect/drivers/connect-python.html
+  
+High Level Procedure:
+  - Used the Datastax web UI to create initial database and keyspace.
+  - Added Michael as an Organization member.
+  - Used the web UI to generate and download auth token and ssl package. Created an additional Database Administrator auth token.
+  - Created a git repo at https://github.com/dsmythe/datastax-demo
+  - Used CodeSandbox app on iPad pro to create a Python development environment on cloud provider.
+  - Installed cassandra python drivers & added to requirements.txt
+  - Settled on writing a terse python application to generate random monsters for a theoretical game.
+  - Wrote create_monsters.py to generate & save 10 monsters to Astra DB
+  - Wrote main.py to retrieve all the generated monsters and print them to terminal.
+  - example_rows.txt shows an example of retrieved data.
+  
+Feedback:
+
+  Quite the exercise for part 1 and I haven't even looked at part 2 yet! Initial setup of Astra DB cluster using free
+resources is quite straightforward, simpler than I expected. The walkthrough on cluster creation is great, but it feels
+like it falls apart a little once the cluster is created. The walkthrough for setting up a Python connection test
+is accurate. From there I needed API documentation on the Python driver and it wasn't immediately obvious where I could
+find that. I ended up spotting the word "Cluster" underlined and hoped that would take me to the API documentation for
+the cassandra.Cluster object, which it thankfully did. From there I was able to begin exploring the documentation for
+the Python driver which assisted me in completing the rest of the exercise. It's nice that your cluster is available from
+a number of different routes ( eg, REST api, CQL ( which seems to be standard SQL to me.. ), GraphQL, etc ) natively and
+I'm sure this is massively beneficial for writing apps in general since it's possible to interface with the cluster via
+REST straight away. I hope to have more opportunities to explore the REST interface. I needed to find a way to develop
+a python application on my iPad so checked out the CodeSandbox app which gives you sandboxed dev environments in the cloud,
+this was perfect for creating a small Python app from this platform. Once connected via the Python driver, querying AstraDB
+was simple enough - a generic 'monster' table will hold my generated monsters and I'll ask Google Bard to generate me some
+sample data to insert into the table. My prompt to Bard was 
+
+"Generate a series of 5 monsters for a game I am creating. Each monster output in python dictionary form. 
+ Each monster should have the following attributes: 1. Name, 2. Color, 3. Hitpoints, 4. Strength, 5. Endurance, 
+ 6. Willpower, 7. Intelligence, 8. Aura, 9. Description under 100 words, 10. Location in fantasy world"
+ 
+and I used the sample to write a quick generic generator function. This spurred me to think about how cool it would be to
+have a REST api for generative AI content, and use something like that to fill the table. In the future I could have AI
+generate long descriptions for text based game content, maybe even proceurally generated game content strictly using AI.
+Anyhow, querying the rows back out of Astra DB was similar to any other RDBMS I've used, so I captured some sample output
+after running the generator a handful of times and saved that as example_rows.txt. 
+
+Knowing that Datastax uses it's own Cassandra fork, I wasn't entirely sure how relative Apache's cassandra documentation
+would be. Now that I've used Astra DB a little I think it's probably close enough.
+
+The Web UI is sleek and intuitive, functions are easily locatable. My only real area of concern is the disconnect from
+"initial setup" of an Astra DB cluster to "Here's how to use it" documentation. While there is extensive documentation in
+a few different places, I felt that the user experience from a newcomer point of view was disconnected. Again, the content
+is there and you can find it - you just have to look for it a bit after your hand has been released after initial cluster
+setup. Another minor nitpick - the favicon is the same on both the Web UI / Dashboard, as it is on the other internal pages,
+documentation links, etc. I feel like once you get a few tabs open it would be nice if the Dashboard had a unique favicon
+so you can easily differentiate it from the other tabs you've got open.
+
+Final thoughts - is there any benchmark data available for this free tier of Astra DB? It would be neat to put it to the
+test and see how it holds up against different workloads. Also, if there are resource limits to this tier, I haven't come
+across them yet. Should this information be presented somewhere so you know how close you are to exceeding resource 
+limits?
+
+That's all for now!
+
+
+
+
+
+
+
+
+
+
+
